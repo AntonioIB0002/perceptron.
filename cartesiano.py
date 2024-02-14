@@ -2,7 +2,7 @@ import sys
 import matplotlib.pyplot as plt
 import numpy as np
 from PyQt5.QtWidgets import QApplication, QMainWindow, QGraphicsScene,QMessageBox
-from PyQt5.QtGui import QPainter, QPen,QColor
+from PyQt5.QtGui import  QPen,QColor
 from PyQt5.QtCore import Qt,QLineF
 from mw import Ui_MainWindow
 
@@ -26,6 +26,7 @@ class Window(QMainWindow):
         self.ui.pushButton_graficar.clicked.connect(self.grafica)
         self.ui.pushButton_reset.clicked.connect(self.reset)
 
+    #grafica la pendiente 
     def perseptron(self):
         w = np.array([self.bias,self.w1,self.w2])
         x = np.array(self.coordenadas)
@@ -43,14 +44,14 @@ class Window(QMainWindow):
         x2 = 20  
         y2 = m * x2 + c
 
-        # Juste para cuadrar en el plano
+        # AJuste para cuadrar en el plano
         y1 = -y1 * 20 + self.scene.height() / 2
         y2 = -y2 * 20 + self.scene.height() / 2
         x1 = x1 * 20 + self.scene.width() / 2
         x2 = x2 * 20 + self.scene.width() / 2
 
         
-        
+        #limpia la scena para cambiar los colores a azul y rojo dependiendo si es true or false
         self.scene.clear()
         self.Cartesiano()
         for i in range(len(y)):
@@ -65,7 +66,9 @@ class Window(QMainWindow):
         pen = QPen(Qt.green)
         pen.setWidth(2)
         self.scene.addLine(line, pen)
+        
 
+        #crea un archivo em mathplot
         plt.axline((0, c), slope = m, linewidth=4)
 
         plt.title('Perceptrón')
@@ -77,7 +80,7 @@ class Window(QMainWindow):
 
         plt.show()
 
-
+    #reseteamos todo puntos, scena, bias, etc.
     def reset(self):
         self.scene.clear()
         self.coordenadas.clear()
@@ -86,6 +89,7 @@ class Window(QMainWindow):
         self.ui.lineEdit_w1.clear()
         self.ui.lineEdit_w2.clear()
 
+    #grafica la pendiente y con try verifica que las entradas sean corrctas
     def grafica(self):
         try:
             self.w1 = float(self.ui.lineEdit_w1.text())
@@ -133,7 +137,7 @@ class Window(QMainWindow):
 
         pen = QPen(Qt.red)
         brush = Qt.red
-        point = self.scene.addEllipse(pos.x() - 2, pos.y() - 2, 4, 4, pen, brush)
+        self.scene.addEllipse(pos.x() - 2, pos.y() - 2, 4, 4, pen, brush)
         
         x = pos.x()
         y = pos.y()
